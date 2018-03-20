@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MealPrepPlanner.Entities\MealPrepPlanner.Entities.csproj" />
+    <ProjectReference Include="..\MealPrepPlanner.Services.Interfaces\MealPrepPlanner.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
