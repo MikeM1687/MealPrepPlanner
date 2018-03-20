@@ -22,9 +22,20 @@ namespace MeapPrepPlanner.Api.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Meal> Get()
+        public IActionResult Get()
         {
-            return _dataService.GetMeals();
+            try
+            {
+                var meals = _dataService.GetMeals();
+
+                return Ok(meals.ToList());
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         // GET api/<controller>/5

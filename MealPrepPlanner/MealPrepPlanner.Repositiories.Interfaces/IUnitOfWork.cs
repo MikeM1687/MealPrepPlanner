@@ -5,8 +5,8 @@ using System.Text;
 
 namespace MealPrepPlanner.Repositiories.Interfaces
 {
-    public interface IRepository<T>
+    public interface IUnitOfWork
     {
-        IEnumerable<T> GetAll();
+        IRepository<Meal> MealRepository { get; }
     }
 }

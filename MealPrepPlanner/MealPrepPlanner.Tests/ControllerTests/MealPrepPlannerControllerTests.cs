@@ -1,6 +1,7 @@
 ﻿using MealPrepPlanner.Entities;
 using MealPrepPlanner.Services.Interfaces;
 using MeapPrepPlanner.Api.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,9 @@ namespace MealPrepPlanner.Tests.ControllerTests
             var controller = new MealPrepPlannerController(mockDataService.Object);
 
             var result = controller.Get();
+            var contentResult = result as OkObjectResult;
 
-            Assert.True(result == meals);
+            Assert.Equal(meals, contentResult.Value);
         }
 
         private List<Meal> MealsTestData()

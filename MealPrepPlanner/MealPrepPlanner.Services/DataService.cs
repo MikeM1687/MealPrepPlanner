@@ -7,18 +7,19 @@ using System.Linq;
 
 namespace MealPrepPlanner.Services
 {
-    public class DataService : IDataService
+    public class DataService<T> : IDataService
     {
-        private readonly IRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DataService(IRepository repo)
+        public DataService(IUnitOfWork unitOfWork)
         {
-            _repo = repo;
+            _unitOfWork = unitOfWork;
         }
 
         public List<Meal> GetMeals()
         {
-            return _repo.GetAllMeals().ToList();
+            return _unitOfWork.MealRepository.GetAll().ToList();
         }
+
     }
 }

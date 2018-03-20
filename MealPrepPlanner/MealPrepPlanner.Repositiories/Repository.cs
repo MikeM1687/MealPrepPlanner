@@ -6,18 +6,18 @@ using System.Collections.Generic;
 
 namespace MealPrepPlanner.Repositiories
 {
-    public class Repository : IRepository
+    public class Repository<T> : IRepository<T> where T : class, IBaseEntity
     {
         protected readonly DbContext _context;
-        protected DbSet<Meal> _dbSet;
+        protected DbSet<T> _dbSet;
 
         public Repository(MealPrepPlannerContext context)
         {
             _context = context;
-            _dbSet = context.Set<Meal>();
+            _dbSet = context.Set<T>();
         }
 
-        public IEnumerable<Meal> GetAllMeals()
+        public IEnumerable<T> GetAll()
         {
             return _dbSet;
         }

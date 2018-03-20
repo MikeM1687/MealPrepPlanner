@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MealPrepPlanner.Entities\MealPrepPlanner.Entities.csproj" />
     <ProjectReference Include="..\MealPrepPlanner.Repositiories.Interfaces\MealPrepPlanner.Repositiories.Interfaces.csproj" />
+    <ProjectReference Include="..\MealPrepPlanner.RestClient\MealPrepPlanner.Client.csproj" />
     <ProjectReference Include="..\MealPrepPlanner.Services\MealPrepPlanner.Services.csproj" />
     <ProjectReference Include="..\MeapPrepPlanner.Api\MeapPrepPlanner.Api.csproj" />
   </ItemGroup>

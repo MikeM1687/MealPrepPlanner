@@ -2,9 +2,8 @@
 
 namespace MealPrepPlanner.Entities
 {
-    public class Meal
+    public class Meal : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

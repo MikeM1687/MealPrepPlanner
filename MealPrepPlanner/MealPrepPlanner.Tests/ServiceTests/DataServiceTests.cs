@@ -14,10 +14,12 @@ namespace MealPrepPlanner.Tests.DataServiceTests
         [Fact]
         public void GetAllMeals_ReturnsAllMeals()
         {
-            var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.GetAllMeals()).Returns(MealsTestData());
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var dataService = new DataService(mockRepo.Object);
+            mockUnitOfWork.Setup(x => x.MealRepository.GetAll())
+                .Returns(MealsTestData());
+
+            var dataService = new DataService<Meal>(mockUnitOfWork.Object);
             var meals = dataService.GetMeals();
 
             Assert.True(meals.Count() == MealsTestData().Count());
