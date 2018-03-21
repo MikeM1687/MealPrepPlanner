@@ -6,6 +6,9 @@ using Moq;
 using MealPrepPlanner.Entities;
 using MealPrepPlanner.Client;
 using System.Threading;
+using System.Net.Http;
+using MealPrepPlanner.Services.Interfaces;
+using Newtonsoft.Json;
 
 namespace MealPrepPlanner.Tests.RestClientTests
 {
@@ -16,12 +19,15 @@ namespace MealPrepPlanner.Tests.RestClientTests
         [Fact]
         public void GetAllMealsAsync_ReturnsAllMeals()
         {
-            var meals = MealsTestData();
-            var client = new RestClient(uri);
+            var meals = JsonConvert.SerializeObject(MealsTestData());
+
+            var mockHttpHandler = new Mock<IHttpHandler>();
+            mockHttpHandler.Setup(x => x.GetAsync(It.IsAny<string>()))
+                .ReturnsAsync(Success(meals));
+
+            var client = new RestClient<Meal>(uri, mockHttpHandler.Object);
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
-
-            var mockHttpResponse = new MockMessageHandler().GetMockClient();
 
             var result = client.GetMeals(token).Result;
 
@@ -36,6 +42,15 @@ namespace MealPrepPlanner.Tests.RestClientTests
                 new Meal { Id = 2, Name = "Meal 2" },
                 new Meal { Id = 3, Name = "Meal 3" }
             };
+        }
+
+        private static HttpResponseMessage Success(string content)
+        {
+            var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new StringContent(content)
+            };
+            return response;
         }
     }
 }

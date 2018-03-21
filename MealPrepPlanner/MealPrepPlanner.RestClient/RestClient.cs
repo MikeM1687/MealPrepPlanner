@@ -1,4 +1,5 @@
 ﻿using MealPrepPlanner.Entities;
+using MealPrepPlanner.Services.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -10,12 +11,15 @@ using System.Threading.Tasks;
 
 namespace MealPrepPlanner.Client
 {
-    public class RestClient : IDisposable
+    public class RestClient<T> : IRestClient
     {
         private HttpClient _client;
+        private IHttpHandler _handler;
 
-        public RestClient(Uri uri)
+        public RestClient(Uri uri, IHttpHandler httpHandler)
         {
+            _handler = httpHandler;
+
             _client = new HttpClient()
             {
                 BaseAddress = uri
@@ -25,35 +29,42 @@ namespace MealPrepPlanner.Client
             _client.DefaultRequestHeaders.Add("User-Agent", "MeaplPrepPlanner REST Client");
         }
 
-        private async Task<T> GetAsync<T>(string uri, CancellationToken cancellationToken)
-        {
-            HttpResponseMessage response = await _client.GetAsync(uri, cancellationToken);
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<T>(json);
-                return result;
-            }
+        //private async Task<T> GetAsync<T>(string uri, CancellationToken cancellationToken)
+        //{
+        //    HttpResponseMessage response = await _client.GetAsync(uri, cancellationToken);
 
-            return default(T);
-        }
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var json = await response.Content.ReadAsStringAsync();
+        //        var result = JsonConvert.DeserializeObject<T>(json);
+        //        return result;
+        //    }
+
+        //    return default(T);
+        //}
 
         public async Task<IEnumerable<Meal>>GetMeals(CancellationToken token)
         {
+            var meals = new List<Meal>();
+
             try
             {
-                return await GetAsync<IEnumerable<Meal>>("api/meals/", token);
+                var response = await _handler.GetAsync("api/meals/");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    meals = JsonConvert.DeserializeObject<List<Meal>>(json);
+                    
+                }
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
-        }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            return meals;
         }
     }
 }

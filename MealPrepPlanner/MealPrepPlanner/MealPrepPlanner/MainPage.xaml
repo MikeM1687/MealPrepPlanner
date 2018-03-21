@@ -8,4 +8,6 @@
            VerticalOptions="Center" 
            HorizontalOptions="Center" />
 
+    <ListView x:Name="mealsListView"></ListView>
+
 </ContentPage>
