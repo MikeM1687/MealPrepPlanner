@@ -21,5 +21,9 @@ namespace MealPrepPlanner.Services
             return _unitOfWork.MealRepository.GetAll().ToList();
         }
 
+        public List<Ingredient> GetIngredients()
+        {
+            return _unitOfWork.IngredientRepository.GetAll().ToList();
+        }
     }
 }

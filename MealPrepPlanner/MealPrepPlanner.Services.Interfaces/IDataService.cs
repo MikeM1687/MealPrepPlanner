@@ -8,5 +8,6 @@ namespace MealPrepPlanner.Services.Interfaces
     public interface IDataService
     {
         List<Meal> GetMeals();
+        List<Ingredient> GetIngredients();
     }
 }

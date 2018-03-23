@@ -9,15 +9,18 @@ namespace MealPrepPlanner.Services
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IDbContextTransaction _transaction;
         private MealPrepPlannerContext _context { get; }
 
         public IRepository<Meal> MealRepository { get; }
+        public IRepository<Ingredient> IngredientRepository { get; }
 
-        public UnitOfWork(MealPrepPlannerContext context, IRepository<Meal> mealRepository)
+        public UnitOfWork(MealPrepPlannerContext context,
+            IRepository<Meal> mealRepository,
+            IRepository<Ingredient> ingredientRepository)
         {
             _context = context;
             MealRepository = mealRepository;
+            IngredientRepository = ingredientRepository;
         }
     }
 }
