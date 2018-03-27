@@ -11,5 +11,6 @@ namespace MealPrepPlanner.Entities
             : base(options) { }
 
         public DbSet<Meal> Meals { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
     }
 }

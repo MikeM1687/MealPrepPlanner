@@ -11,31 +11,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace MeapPrepPlanner.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class MealPrepPlannerController : Controller
+    public class MealsController : Controller
     {
         private readonly IDataService _dataService;
 
-        public MealPrepPlannerController(IDataService dataService)
+        public MealsController(IDataService dataService)
         {
             _dataService = dataService;
         }
 
         // GET: api/<controller>
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<Meal> GetMeals()
         {
-            try
-            {
-                var meals = _dataService.GetMeals();
-
-                return Ok(meals.ToList());
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
+            return _dataService.GetMeals();
         }
 
         // GET api/<controller>/5
